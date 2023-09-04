@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://sitrayas.github.io/CalculadoraWebFechaProbablePartoEdadGestacional/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+  <title>Calcular Edad Gestacional y Fecha de Parto</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="formulaeg">
+      <form>
+        <input type="date" id="fecha-parto" min="2019-01-01" max="2024-12-31"><br><br>
+        <button type="button" onclick="calcularEdadGestacional()" class="btn btn-rosado">Calcular</button>
+
+      </form>
+
+      <p class="r1"><i class="fas fa-heartbeat animated heartBeat icono-rosa"></i> Edad Gestacional: <span id="edad-gestacional"></span></p>
+<p class="r2"><i class="far fa-calendar-alt animated tada icono-rosa"></i> F. Probable de Parto: <span id="fecha-parto-result"></span></p>
+
+    <script>
+    function calcularEdadGestacional() {
+        let fechaParto = document.getElementById("fecha-parto").value;
+        if (!fechaParto) {
+        alert("Selecciona una fecha válida");
+        return;
+        }
+
+        let fechaFUM = new Date(fechaParto);
+        let milisegundosFUM = fechaFUM.getTime();
+        let milisegundosActual = Date.now();
+        let diferenciaMilisegundos = milisegundosActual - milisegundosFUM;
+
+        let diferenciaSemanas = diferenciaMilisegundos / (7 * 24 * 60 * 60 * 1000);
+        let edadGestacionalSemanas = Math.floor(diferenciaSemanas);
+
+        let fechaProbableParto = new Date(fechaFUM);
+        fechaProbableParto.setFullYear(fechaProbableParto.getFullYear() + 1);
+        fechaProbableParto.setMonth(fechaProbableParto.getMonth() - 3);
+        fechaProbableParto.setDate(fechaProbableParto.getDate() + 8);
+        let dia = fechaProbableParto.getDate();
+        let mes = fechaProbableParto.getMonth();
+        let anio = fechaProbableParto.getFullYear();
+        let meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+        let nombreMes = meses[mes];
+
+        let edadGestacionalElement = document.getElementById("edad-gestacional");
+  edadGestacionalElement.textContent = `${edadGestacionalSemanas} semanas`;
+  edadGestacionalElement.classList.add("texto-resultado"); // Aplica la clase
+
+  let fechaPartoElement = document.getElementById("fecha-parto-result");
+  fechaPartoElement.textContent = `${dia} de ${nombreMes} de ${anio}`;
+  fechaPartoElement.classList.add("texto-resultado"); // Aplica la clase
+}
+    </script>
+</div>
+
+
+
+
+<footer class="footer">
+  <br>
+  <a class="f" href="https://github.com/sitrayas">sitrayas</a>
+</footer>
+
+</body>
+
+</html>
